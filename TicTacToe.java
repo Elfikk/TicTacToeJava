@@ -1,13 +1,20 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class TicTacToe {
 
     static Scanner myScanner = new Scanner(System.in);
 
-    public static int[][] win_configs = {{0, 4, 8}, {2, 4, 6}, {0, 1, 2}, 
+    public static int[][] winConfigs = {{0, 4, 8}, {2, 4, 6}, {0, 1, 2}, 
                                          {3, 4, 5}, {6, 7, 8}, {0, 3, 6},
                                          {1, 4, 7}, {2, 5, 8}};
+
+    static String[] indicesArray = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
+    public static HashSet<String> legitimateIndices =
+                                 new HashSet<String>(Arrays.asList(indicesArray));
+
+    public static TTTBoard tttGUI = new TTTBoard();
 
     public static int[] indexConverter(int number) {
         // converts number from win config to a column, row index.
@@ -17,16 +24,36 @@ public class TicTacToe {
 
     public String[][] gameLoop(String[][] board, String currentPlayer) {
         
-        //Ask for user input on the board.
-        System.out.println("Next move");
-        String nextIndexString = myScanner.nextLine();
-        //Converts number string input into an integer
-        int nextIndex = Integer.parseInt(nextIndexString);
+        Boolean legitimateMove = false;
 
-        //Gets the index on the board
-        int[] index = indexConverter(nextIndex);
-        int column = index[0], row = index[1];
-        board[column][row] = currentPlayer;
+        do {
+            //Ask for user input on the board.
+            System.out.println("Next move");
+            String nextIndexString = myScanner.nextLine();
+
+            // check if the passed string is even a number thats allowed
+            if (legitimateIndices.contains(nextIndexString)) {
+                    //Converts number string input into an integer
+                int nextIndex = Integer.parseInt(nextIndexString);
+
+                //Gets the index on the board
+                int[] index = indexConverter(nextIndex);
+                int column = index[0], row = index[1];
+
+                if ((board[column][row] == "o") || board[column][row] == "x") {
+                    System.out.println("Illegitimate Move");
+                }
+                else {
+                    board[column][row] = currentPlayer;
+                    legitimateMove = true;
+                }
+            }
+            else {
+                System.out.println("Illegitimate Move");
+            }
+            
+        }
+        while (!legitimateMove);
 
         //Have to return the board as Java is pass by value only.
         return board;
@@ -36,8 +63,8 @@ public class TicTacToe {
 
         //Checks for a win
 
-        // for array of integers called i in win_configs
-        for (int[] i: win_configs) {
+        // for array of integers called i in winConfigs
+        for (int[] i: winConfigs) {
             // initialises empty array of strings
             String[] currentConfig = new String[3];
             // equivalent of for j in range(len(i)) - j++ increments by 1. 
