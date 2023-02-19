@@ -14,7 +14,7 @@ public class TicTacToe {
     public static HashSet<String> legitimateIndices =
                                  new HashSet<String>(Arrays.asList(indicesArray));
 
-    public static TTTBoard tttGUI = new TTTBoard();
+    // public static TTTBoard tttGUI = new TTTBoard();
 
     public static int[] indexConverter(int number) {
         // converts number from win config to a column, row index.

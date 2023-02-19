@@ -16,6 +16,8 @@ public class TTTBoard extends JFrame {
     // player/game result.
     static JLabel[] labels;
 
+    static JButton resetButton;
+
     public void gameEnded(String winner) {
         if (winner == "draw"){
             labels[1].setText("No winner, draw :(");
@@ -28,16 +30,16 @@ public class TTTBoard extends JFrame {
     public void updateTile(int index, String currentPlayer) {
 
         fields[index].setText(currentPlayer);
+        fields[index].setEnabled(false);
         if (currentPlayer == "x") {
-            labels[1].setText("Current Player: x");
+            labels[1].setText("Current Player: o");
         }
         else {
-            labels[1].setText("Current Player: o");
+            labels[1].setText("Current Player: x");
         }
     }
 
-    public static void main(String[] args) {
-
+    public void initialiseUI(String[] args) {
         // Make the JFrame, the window which holds all GUI components.
         frame = new JFrame("Frame");
 
@@ -54,15 +56,20 @@ public class TTTBoard extends JFrame {
 
         labels[0] = new JLabel("");
         labels[1] = new JLabel("Current Player: x", SwingConstants.CENTER);
-        labels[2] = new JLabel("");
+        // labels[2] = new JLabel("");
+        resetButton = new JButton("Reset");
+        resetButton.setName("reset");
 
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < 2; j++) {
             frame.add(labels[j]);
         }
+        frame.add(resetButton);
 
         for (int i = 0; i < 9; i++){
             //I hate this line so much
             fields[i] = new JButton(Integer.toString(i)); 
+            fields[i].setName(Integer.toString(i));
+            // System.out.println(fields[i].getText());
             frame.add(fields[i]);
         }
 
@@ -71,7 +78,27 @@ public class TTTBoard extends JFrame {
         
         frame.setSize(600, 800);
         frame.setVisible(true);
+    }
 
+    public void reset(String...args) {
+        labels[1].setText("Current Player: x");
+        for (int i = 0; i < 9; i++){
+            fields[i].setEnabled(true);
+            fields[i].setText(Integer.toString(i));
+        }
+    }
+
+    public void setListener(TTTListener listener) {
+        for (int i = 0; i < 9; i++){
+            fields[i].addActionListener(listener);
+        }
+        resetButton.addActionListener(listener);
+    }
+
+    public static void main(String[] args) {
+
+        TTTBoard tttUI = new TTTBoard();
+        tttUI.initialiseUI(args);
 
     }
 }
