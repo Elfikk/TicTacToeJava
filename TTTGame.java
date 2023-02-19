@@ -30,6 +30,10 @@ public class TTTGame {
         }
     }
 
+    public void exit(String...args) {
+        System.exit(0);
+    }
+
     public static void main(String...args) {
 
         TTTGame game = new TTTGame();

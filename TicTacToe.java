@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.Arrays;
 import java.util.HashSet;
 
+//Text based version.
 public class TicTacToe {
 
     static Scanner myScanner = new Scanner(System.in);
@@ -13,8 +14,6 @@ public class TicTacToe {
     static String[] indicesArray = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
     public static HashSet<String> legitimateIndices =
                                  new HashSet<String>(Arrays.asList(indicesArray));
-
-    // public static TTTBoard tttGUI = new TTTBoard();
 
     public static int[] indexConverter(int number) {
         // converts number from win config to a column, row index.

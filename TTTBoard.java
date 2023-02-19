@@ -93,6 +93,7 @@ public class TTTBoard extends JFrame {
             fields[i].addActionListener(listener);
         }
         resetButton.addActionListener(listener);
+        frame.addWindowListener(listener);
     }
 
     public static void main(String[] args) {
